@@ -11,20 +11,15 @@ class TFRenderer extends React.Component {
       <Canvas>
         <ambientLight />
         <pointLight position={[10, 10, 10]} />
-        <Box position={[0, 0, 0]} />
         <Extrusion
           position={[0, 0, 0]}
-          start={[
-            this.props.shape.curves[0].point1.x,
-            this.props.shape.curves[0].point1.y
-          ]}
           curves={this.props.shape.curves}
           bevelEnabled
-          depth={8}
-          bevelSegments={2}
-          steps={2}
-          bevelSize={1}
-          bevelThickness={1} />
+          depth={70}
+          bevelSegments={4}
+          steps={4}
+          bevelSize={15}
+          bevelThickness={15} />
       </Canvas>
     );
   }

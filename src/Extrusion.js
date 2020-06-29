@@ -2,7 +2,7 @@ import React, { useRef, useState, useMemo } from 'react';
 import { useFrame } from 'react-three-fiber';
 import * as THREE from 'three';
 
-function Extrusion({ start = [0, 0], curves, ...props }) {
+function Extrusion({ curves, ...props }) {
   // This reference will give us direct access to the mesh
   const mesh = useRef();
 
@@ -15,33 +15,45 @@ function Extrusion({ start = [0, 0], curves, ...props }) {
 
   const shape = useMemo(() => {
     let shape = new THREE.Shape();
+
+    const centreCoord = (p) => {
+      const width = window.innerWidth / 2;
+      const height = window.innerHeight / 2;
+  		// move to the center
+  		p.x -= 200;
+  		p.y += 200;
+  		return p;
+  	}
+
     console.log("Number of curves: " + curves.length);
     console.log(shape);
     curves.forEach((curve, i) => {
       const currentCurve = curves[i];
+      const p1 = currentCurve.point1;
+      const p2 = currentCurve.point2;
+      const h1 = currentCurve.handle1;
+      const h2 = currentCurve.handle2;
       if (i === 0) {
-        shape.moveTo(currentCurve.point1.x, currentCurve.point1.y)
-        console.log("First point: " + currentCurve.point1.x + ", " + currentCurve.point1.y);
+        shape.moveTo(p1.x, p1.y);
+        console.log("First point: " + p1);
       }
       shape.bezierCurveTo(
-        currentCurve.handle1.x, currentCurve.handle1.y,
-        currentCurve.handle2.x, currentCurve.handle2.y,
-        currentCurve.point2.x, currentCurve.point2.y
+        p1.x + h1.x, p1.y + h1.y,
+        p2.x + h2.x, p2.y + h2.y,
+        p2.x, p2.y
       );
-      console.log("X: " + currentCurve.point2.x + " Y: " + currentCurve.point2.y);
-      console.log(shape);
     });
 
     shape.closePath();
     return shape;
 
-  }, [start, curves]);
+  }, [curves]);
 
   return (
     <mesh
       {...props}
       ref={mesh}
-      scale={active ? [1.5, 1.5, 1.5] : [0.01, 0.01, 0.01]}
+      scale={active ? [0.02, 0.02, 0.02] : [0.01, 0.01, 0.01]}
       onClick={(e) => setActive(!active)}
       onPointerOver={(e) => setHover(true)}
       onPointerOut={(e) => setHover(false)}>
