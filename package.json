@@ -9,7 +9,7 @@
     "paper": "^0.12.11",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1",
+    "react-scripts": "5.0.1",
     "react-three-fiber": "^4.2.10",
     "three": "^0.117.1",
     "typescript": "^3.9.5"
